@@ -6,14 +6,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SecondActivity">
-
+    <RelativeLayout android:id="@+id/RelativeLayout01"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        tools:ignore="MissingConstraints">
 
     <ImageView android:id="@+id/animationView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="170dp"
-        android:layout_marginBottom="220dp"
-        android:adjustViewBounds="true" android:padding="40dip"/>
+        android:layout_height="100px"
+        android:layout_centerInParent="true"
+
+
+        tools:ignore="MissingConstraints" />
+
+</RelativeLayout>
+
 
     <com.example.myapplication.views.SecondActivityView
     android:id="@+id/secondActivityView"
