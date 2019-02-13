@@ -14,11 +14,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:onClick="onClick"
         android:layout_marginTop="200dp"
         android:layout_marginLeft="100dp"
         android:layout_marginRight="100dp"
-
+        android:background="@drawable/buttonstyle"
+        android:text="HUI"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

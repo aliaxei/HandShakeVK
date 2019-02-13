@@ -11,6 +11,7 @@ anim abc_slide_out_bottom
 anim abc_slide_out_top
 anim abc_tooltip_enter
 anim abc_tooltip_exit
+anim animationscale
 attr actionBarDivider
 attr actionBarItemBackground
 attr actionBarPopupTheme
@@ -659,6 +660,7 @@ drawable abc_vector_test
 drawable animation_planet
 drawable bg_toolbar_shadow_dark
 drawable bggradient
+drawable buttonstyle
 drawable hands
 drawable ic_ab_app
 drawable ic_close_white_24dp

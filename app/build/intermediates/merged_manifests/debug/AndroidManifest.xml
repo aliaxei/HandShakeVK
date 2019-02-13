@@ -30,6 +30,11 @@
             android:name="com.vk.sdk.VKServiceActivity"
             android:label="ServiceActivity"
             android:theme="@style/VK.Transparent" />
+
+        <provider
+            android:name="com.android.tools.ir.server.InstantRunContentProvider"
+            android:authorities="com.example.myapplication.com.android.tools.ir.server.InstantRunContentProvider"
+            android:multiprocess="true" />
     </application>
 
 </manifest>
