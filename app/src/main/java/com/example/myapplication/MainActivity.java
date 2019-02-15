@@ -11,6 +11,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 
 import com.example.myapplication.objects.StartButton;
+import com.example.myapplication.requestEngine.RequestActivity;
 import com.example.myapplication.views.MainView;
 
 public class MainActivity extends AppCompatActivity implements View.OnTouchListener{
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 v.startAnimation(animAlpha);
                 break;
             case MotionEvent.ACTION_UP:
-                Intent intent = new Intent(this, SecondActivity.class);
+                Intent intent = new Intent(this, RequestActivity.class);
                 startActivity(intent);
                 break;
         }

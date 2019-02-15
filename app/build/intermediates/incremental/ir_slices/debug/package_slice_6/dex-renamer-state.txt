@@ -1,4 +1,4 @@
-#Mon Feb 11 17:01:10 MSK 2019
+#Fri Feb 15 17:47:12 MSK 2019
 base.0=E\:\\mobilki project\\project 1.0\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\6
 path.0=classes.dex
 renamed.0=classes.dex
