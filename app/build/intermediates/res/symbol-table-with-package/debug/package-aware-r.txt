@@ -12,6 +12,8 @@ anim abc_slide_out_top
 anim abc_tooltip_enter
 anim abc_tooltip_exit
 anim animationscale
+anim fade_in
+anim fade_out
 attr actionBarDivider
 attr actionBarItemBackground
 attr actionBarPopupTheme
@@ -725,6 +727,7 @@ id barrier
 id beginning
 id blocking
 id bottom
+id button
 id buttonPanel
 id captchaAnswer
 id captcha_container
@@ -781,6 +784,7 @@ id list_item
 id message
 id middle
 id multiply
+id myText
 id never
 id none
 id normal
@@ -862,6 +866,7 @@ id wrap_content
 integer abc_config_activityDefaultDur
 integer abc_config_activityShortDur
 integer cancel_button_image_alpha
+integer com_vk_sdk_AppId
 integer config_tooltipAnimTime
 integer status_bar_notification_info_maxnum
 layout abc_action_bar_title_item
@@ -893,6 +898,7 @@ layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
 layout activity_main
+layout activity_request
 layout activity_second
 layout notification_action
 layout notification_action_tombstone
