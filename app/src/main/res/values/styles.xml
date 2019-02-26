@@ -1,11 +1,17 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorAccent</item>
         <item name="colorPrimaryDark">@color/colorAccent</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+    #E8C8FF
+    <style name="MySwitch" parent="Theme.AppCompat.Light">
+        <item name="colorControlActivated">#B114FF</item>
+        <item name="colorSwitchThumbNormal">#E8C8FF</item>
+        <item name="android:colorForeground">@android:color/darker_gray</item>
 
+    </style>
 </resources>

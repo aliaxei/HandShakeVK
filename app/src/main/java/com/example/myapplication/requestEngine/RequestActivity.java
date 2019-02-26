@@ -34,15 +34,40 @@ import java.util.List;
 public class RequestActivity extends AppCompatActivity {
 
     final String[] scope = new String[]{VKScope.WALL, VKScope.PHOTOS};
-    String text;
+   // String text;
     ArrayList items = new ArrayList();
     // private static final android.app.Activity Activity = runningActivity ;
 
-    public void Click(){
+   // public void Click(){
 
 
+    //}
+    private String text;
+    public String[] getScope() {
+        return scope;
     }
 
+    public String getText() {
+        return text;
+    }
+
+    public ArrayList getItems() {
+        return items;
+    }
+
+
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public void setItems(ArrayList items) {
+        this.items = items;
+    }
+
+    public void Login(){
+        VKSdk.login(this, scope);
+    }
 
 
     @Override
@@ -59,27 +84,42 @@ public class RequestActivity extends AppCompatActivity {
         if (!VKSdk.onActivityResult(requestCode, resultCode, data, new VKCallback<VKAccessToken>() {
             @Override
             public void onResult(final VKAccessToken res) {
-// Пользователь успешно авторизовался
-                //Toast toast = new Toast(getApplicationContext());
+               // Пользователь успешно авторизовался
+                Toast toast = Toast.makeText(getApplicationContext(),
+                        "Успешная!", Toast.LENGTH_SHORT);
+            }
+            @Override
+            public void onError(VKError error) {
+// Произошла ошибка авторизации (например, пользователь запретил авторизацию)
+                Toast toast = Toast.makeText(getApplicationContext(),
+                        "Нет!", Toast.LENGTH_SHORT);
+            }
+        })) {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+    public void friendRequest(){
+        //Toast toast = new Toast(getApplicationContext());
                /* Toast toast = Toast.makeText(getApplicationContext(),
                         "Успешная!", Toast.LENGTH_SHORT);
                 toast.show();*/
                 /*VKParameters params = new VKParameters();
                 params.put(VKApiConst.FIELDS,VKApiUserFull);*/
-                //VKRequest request = VKApi.friends().get(VKParameters.from(VKApiConst.FIELDS,"counters","user_id", 35509985));
-                VKRequest request = VKApi.friends().get(VKParameters.from(VKApiConst.FIELDS,"sex"));
+        //VKRequest request = VKApi.friends().get(VKParameters.from(VKApiConst.FIELDS,"counters","user_id", 35509985));
+        VKRequest request = VKApi.friends().get(VKParameters.from(VKApiConst.FIELDS,"sex"));
 
-                request.executeWithListener(new VKRequest.VKRequestListener() {
+        request.executeWithListener(new VKRequest.VKRequestListener() {
 
-                    @Override
-                    public void onComplete(VKResponse response) {
-                        super.onComplete(response);
-                        VKList list =  (VKList) response.parsedModel;
-                        String s;
-                        for(int i = 0;i<list.getCount();i++) {
-                            text += list.get(i).fields.toString();
+            @Override
+            public void onComplete(VKResponse response) {
+                super.onComplete(response);
+                VKList list =  (VKList) response.parsedModel;
+                //  String s;
+                for(int i = 0;i<list.getCount();i++) {
+                    setText(list.get(i).fields.toString()); //list.get(i).fields.toString();
 
-                        }
+                    //setText("hui");
+                }
                         /*//text = response.responseString;
                         JSONObject item;
                         item = response.json;
@@ -123,29 +163,20 @@ public class RequestActivity extends AppCompatActivity {
                         //text = count;
 
                         //JSONObject items = response.json;*/
-                    }
-
-                    @Override
-                    public void onError(VKError error) {
-                        super.onError(error);
-                    }
-                });
-                //VKApi.friends().get(params).executeWithListener();
-
             }
+
             @Override
             public void onError(VKError error) {
-// Произошла ошибка авторизации (например, пользователь запретил авторизацию)
+                super.onError(error);
             }
-        })) {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
-    }
+        });
+        //VKApi.friends().get(params).executeWithListener();
 
+    }
     public void Click(View view) {
         TextView myTextView = findViewById(R.id.myText);
-
-        myTextView.setText(text);
+        friendRequest();
+        myTextView.setText(getText());
 
     }
 }

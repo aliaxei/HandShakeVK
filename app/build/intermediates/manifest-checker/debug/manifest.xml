@@ -21,6 +21,8 @@
         android:supportsRtl="true"
         android:testOnly="true"
         android:theme="@style/AppTheme" >
+        <activity android:name="com.example.myapplication.TestActivity" />
+        <activity android:name="com.example.myapplication.settings.SettingsActivity" />
         <activity android:name="com.example.myapplication.requestEngine.RequestActivity" />
         <activity android:name="com.example.myapplication.SecondActivity" />
         <activity android:name="com.example.myapplication.MainActivity" >

@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.myapplication">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".requestEngine.Application"
         android:allowBackup="true"
@@ -10,7 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".requestEngine.RequestActivity"></activity>
+        <activity android:name=".TestActivity"></activity>
+        <activity android:name=".settings.SettingsActivity" />
+        <activity android:name=".requestEngine.RequestActivity" />
         <activity android:name=".SecondActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -19,10 +23,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.vk.sdk.VKServiceActivity"
+        <activity
+            android:name="com.vk.sdk.VKServiceActivity"
             android:label="ServiceActivity"
             android:theme="@style/VK.Transparent" />
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>
