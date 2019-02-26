@@ -26,13 +26,14 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     Button settingsButton;
     Animation animAlpha;
     String font;
-
+    WorkWithFile workWithFile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
+        workWithFile = new WorkWithFile();
         button1 = findViewById(R.id.startButton);
         button1.setOnTouchListener(this);
         loadButton = findViewById(R.id.loadButton);
@@ -47,15 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     protected void onRestart() {
         super.onRestart();
 
-        try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(
-                    openFileInput(FILENAME)));
-            font = br.readLine();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        font = workWithFile.ReadFromFile(getApplicationContext());
         if (font != null) {
             if (font.equals(Fonts.Superfont.toString())) {
                 Typeface font = Typeface.createFromAsset(getAssets(), "fonts/14704.ttf");
