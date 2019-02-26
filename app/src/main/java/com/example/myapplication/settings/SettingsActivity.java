@@ -1,5 +1,6 @@
 package com.example.myapplication.settings;
 
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,8 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import com.example.myapplication.R;
+import com.example.myapplication.WorkWithFile;
+import com.example.myapplication.requestEngine.Application;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -28,6 +31,7 @@ import java.io.Writer;
 public class SettingsActivity extends AppCompatActivity  {
     Switch superSwitch;
     Switch aSwitch;
+    WorkWithFile workWithFile;
     final String FILENAME = "font";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,23 +39,14 @@ public class SettingsActivity extends AppCompatActivity  {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
         setContentView(R.layout.activity_settings);
+        workWithFile = new WorkWithFile();
         superSwitch = findViewById(R.id.superfontSwitch);
         superSwitch.setChecked(false);
         superSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (superSwitch.isChecked()) {
-                    try {
-                        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
-                                openFileOutput(FILENAME, MODE_PRIVATE)));
-                        bw.write(Fonts.Superfont.toString());
-                        bw.close();
-
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    workWithFile.WriteToFile(Fonts.Superfont, getApplicationContext());
                     aSwitch.setChecked(false);
                     Typeface font = Typeface.createFromAsset(getAssets(), "fonts/14704.ttf");
                     superSwitch.setTypeface(font);
