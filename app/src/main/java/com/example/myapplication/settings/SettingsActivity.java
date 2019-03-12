@@ -1,38 +1,27 @@
 package com.example.myapplication.settings;
 
-import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.Button;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
+import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.example.myapplication.R;
 import com.example.myapplication.WorkWithFile;
-import com.example.myapplication.requestEngine.Application;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Reader;
-import java.io.Writer;
-
-public class SettingsActivity extends AppCompatActivity  {
+public class SettingsActivity extends AppCompatActivity  implements CompoundButton.OnCheckedChangeListener{
     Switch superSwitch;
     Switch aSwitch;
+    String state,font;
     WorkWithFile workWithFile;
-    final String FILENAME = "font";
+    Spinner spinner;
+    String[] data = {Fonts.Superfont.toString(),Fonts.Arial.toString()};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,112 +30,115 @@ public class SettingsActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_settings);
         workWithFile = new WorkWithFile();
         superSwitch = findViewById(R.id.superfontSwitch);
-        superSwitch.setChecked(false);
-        superSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (superSwitch.isChecked()) {
-                    workWithFile.WriteToFile(Fonts.Superfont, getApplicationContext());
-                    aSwitch.setChecked(false);
-                    Typeface font = Typeface.createFromAsset(getAssets(), "fonts/14704.ttf");
-                    superSwitch.setTypeface(font);
-                    aSwitch.setTypeface(font);
-                }else {
-                    Typeface typeface = Typeface.DEFAULT;
-                    superSwitch.setTypeface(typeface);
-                    aSwitch.setTypeface(typeface);
-                }
-            }
-        });
+        superSwitch.setOnCheckedChangeListener(this);
         aSwitch = findViewById(R.id.arialSwitch);
-        aSwitch.setChecked(false);
-        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (aSwitch.isChecked()){
-                    try {
-                        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
-                                openFileOutput(FILENAME, MODE_PRIVATE)));
-                        bw.write(Fonts.Arial.toString());
-                        bw.close();
+        aSwitch.setOnCheckedChangeListener(this);
 
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    superSwitch.setChecked(false);
-                    Typeface font = Typeface.createFromAsset(getAssets(), "fonts/14372.ttf");
-                    superSwitch.setTypeface(font);
-                    aSwitch.setTypeface(font);
-                }else {
-                    Typeface typeface = Typeface.DEFAULT;
-                    superSwitch.setTypeface(typeface);
-                    aSwitch.setTypeface(typeface);
-                }
+        font = workWithFile.ReadFromFile(workWithFile.getFontsFileName(),getApplicationContext());
+        if (font != null) {
+            if (font.equals(Fonts.Basic.toString())){
+                superSwitch.setChecked(false);
+                aSwitch.setChecked(false);
+            }
+            if (font.equals(Fonts.Superfont.toString())) {
+                superSwitch.setChecked(true);
+            }
+            if (font.equals(Fonts.Arial.toString())) {
+                aSwitch.setChecked(true);
+            }
+        }
+        Typeface superfont = Typeface.createFromAsset(getAssets(), "fonts/Superfont.ttf");
+        superSwitch.setTypeface(superfont);
+        Typeface arialfont = Typeface.createFromAsset(getAssets(), "fonts/Arial.ttf");
+        aSwitch.setTypeface(arialfont);
+
+        //////////////////////////////
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, data);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinner =  findViewById(R.id.spinner);
+        spinner.setAdapter(adapter);
+        spinner.setPrompt("!23");
+        font = workWithFile.ReadFromFile(workWithFile.getFontsFileName(),getApplicationContext());
+        if (font != null) {
+            if (font.equals(Fonts.Arial.toString())) {
+                spinner.setSelection(1);
+            }
+            if (font.equals(Fonts.Superfont.toString())) {
+                spinner.setSelection(0);
+            }
+        }
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                workWithFile.WriteToFile(workWithFile.getFontsFileName(), parent.getSelectedItem().toString(),getApplicationContext());
+
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
             }
         });
-//        fontButton = findViewById(R.id.fontButton);
-//        fontButton.setOnTouchListener(this);
-//
-//        font2Button = findViewById(R.id.font2Button);
-//        font2Button.setOnTouchListener(this);
-        //animAlpha = AnimationUtils.loadAnimation(this, R.anim.alpha_animation);
     }
 
 
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        switch (buttonView.getId()){
+            case R.id.superfontSwitch:
+                if (superSwitch.isChecked()) {
+                    workWithFile.WriteToFile(workWithFile.getFontsFileName(),Fonts.Superfont.toString(), getApplicationContext());
+                    aSwitch.setChecked(false);
 
-//    @Override
-//    public boolean onTouch(View v, MotionEvent event) {
-//        switch (v.getId()){
-//            case R.id.fontButton:
-//                switch (event.getAction()){
-//                    case MotionEvent.ACTION_DOWN:
-//                        fontButton.startAnimation(animAlpha);
-//                        break;
-//                    case MotionEvent.ACTION_UP:
-//                        try {
-//                            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
-//                                    openFileOutput(FILENAME, MODE_PRIVATE)));
-//                            bw.write(Fonts.Superfont.toString());
-//                            bw.close();
-//
-//                        } catch (FileNotFoundException e) {
-//                            e.printStackTrace();
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/14704.ttf");
-//                        fontButton.setTypeface(font);
-//                        font2Button.setTypeface(font);
-//                        break;
-//                }
-//                break;
-//            case R.id.font2Button:
-//                switch (event.getAction()){
-//                    case MotionEvent.ACTION_DOWN:
-//                        font2Button.startAnimation(animAlpha);
-//                        break;
-//                    case MotionEvent.ACTION_UP:
-//                        try {
-//                            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
-//                                    openFileOutput(FILENAME, MODE_PRIVATE)));
-//                            bw.write(Fonts.Arial.toString());
-//                            bw.close();
-//
-//                        } catch (FileNotFoundException e) {
-//                            e.printStackTrace();
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                        Typeface font1 = Typeface.createFromAsset(getAssets(), "fonts/14372.ttf");
-//                        fontButton.setTypeface(font1);
-//                        font2Button.setTypeface(font1);
-//                        break;
-//                }
-//                break;
-//        }
-//
-//        return true;
-//    }
+
+                }
+                if (!superSwitch.isChecked() && !aSwitch.isChecked()){
+                    workWithFile.WriteToFile(workWithFile.getFontsFileName(),Fonts.Basic.toString(), getApplicationContext());
+                }
+                break;
+            case R.id.arialSwitch:
+                if (aSwitch.isChecked()){
+                    workWithFile.WriteToFile(workWithFile.getFontsFileName(),Fonts.Arial.toString(), getApplicationContext());
+                    superSwitch.setChecked(false);
+                    if (!superSwitch.isChecked() && !aSwitch.isChecked()){
+                        workWithFile.WriteToFile(workWithFile.getFontsFileName(),Fonts.Basic.toString(), getApplicationContext());
+                    }
+                }
+
+                break;
+        }
+
+    }
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        font = workWithFile.ReadFromFile(workWithFile.getFontsFileName(),getApplicationContext());
+        if (font != null) {
+            if (font.equals(Fonts.Basic.toString())){
+                Typeface font = Typeface.createFromAsset(getAssets(), "fonts/Basic.ttf");
+                superSwitch.setTypeface(font);
+                aSwitch.setTypeface(font);
+
+            }
+            if (font.equals(Fonts.Superfont.toString())) {
+
+                Typeface font = Typeface.createFromAsset(getAssets(), "fonts/Superfont.ttf");
+                superSwitch.setTypeface(font);
+                aSwitch.setTypeface(font);
+            }
+            if (font.equals(Fonts.Arial.toString())) {
+                Typeface font = Typeface.createFromAsset(getAssets(), "fonts/Arial.ttf");
+                superSwitch.setTypeface(font);
+                aSwitch.setTypeface(font);
+            }
+        }
+
+    }
+
 }
+
+
+
+
+

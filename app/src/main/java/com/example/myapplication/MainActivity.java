@@ -10,69 +10,55 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.TextView;
 
-import com.example.myapplication.settings.Fonts;
 import com.example.myapplication.settings.SettingsActivity;
+import com.example.myapplication.settings.StateSwitch;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnTouchListener{
-    final String FILENAME = "font";
-    Button button1;
-    Button loadButton;
-    Button settingsButton;
+    Button startButton,loadButton,settingsButton;
+    TextView textViewStartButton,textViewLoadButtons,textViewSettingsButton;
     Animation animAlpha;
     String font;
-
+    WorkWithFile workWithFile;
+    List <TextView> textViewsList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
-        button1 = findViewById(R.id.startButton);
-        button1.setOnTouchListener(this);
+        workWithFile = new WorkWithFile();
+
+        startButton = findViewById(R.id.startButton);
+        startButton.setOnTouchListener(this);
+
         loadButton = findViewById(R.id.loadButton);
         loadButton.setOnTouchListener(this);
+
         settingsButton = findViewById(R.id.settingsButton);
         settingsButton.setOnTouchListener(this);
+
+
+        textViewLoadButtons = findViewById(R.id.textViewLoadButton);
+        textViewsList.add(textViewLoadButtons);
+        textViewSettingsButton = findViewById(R.id.textViewSettingsButton);
+        textViewsList.add(textViewSettingsButton);
+        textViewStartButton = findViewById(R.id.textViewStartButton);
+        textViewsList.add(textViewStartButton);
         animAlpha = AnimationUtils.loadAnimation(this, R.anim.animationscale);
 
+
+        font = workWithFile.ReadFromFile(workWithFile.getFontsFileName(),getApplicationContext());
+        if (font != null) {
+            FontChanger.changeTheFont(font,textViewsList,this);
+        }
      }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-
-        try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(
-                    openFileInput(FILENAME)));
-            font = br.readLine();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (font != null) {
-            if (font.equals(Fonts.Superfont.toString())) {
-                Typeface font = Typeface.createFromAsset(getAssets(), "fonts/14704.ttf");
-                button1.setTypeface(font);
-                loadButton.setTypeface(font);
-                settingsButton.setTypeface(font);
-            }
-            if (font.equals(Fonts.Arial.toString())) {
-                Typeface font = Typeface.createFromAsset(getAssets(), "fonts/14372.ttf");
-                button1.setTypeface(font);
-                loadButton.setTypeface(font);
-                settingsButton.setTypeface(font);
-            }
-        }
-
-    }
-    @Override
+        @Override
     public boolean onTouch(View v, MotionEvent event) {
         switch (v.getId())
         {
@@ -117,16 +103,17 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         return true;
     }
 
-    //    @Override
-//    public void onClick(View v) {
-//
-//       switch (v.getId()){
-//           case R.id.startButton:
-//               v.startAnimation(animAlpha);
-//               Intent intent = new Intent(this, SecondActivity.class);
-//               startActivity(intent);
-//       }
-//
-//
-//           }
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        font = workWithFile.ReadFromFile(workWithFile.getFontsFileName(),getApplicationContext());
+        if (font != null) {
+          FontChanger.changeTheFont(font,textViewsList,this);
+        }
+
+    }
+
+
+
 }
