@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 #Wed Feb 27 12:25:14 MSK 2019
+=======
+#Tue Feb 26 18:06:28 MSK 2019
+>>>>>>> 97d7e4dc936746a5e05866d8f2b273a58f2439e8
 base.0=E\:\\mobilki project\\project 1.0\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\5
 path.0=classes.dex
 renamed.0=classes.dex

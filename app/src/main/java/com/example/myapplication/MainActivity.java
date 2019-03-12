@@ -24,7 +24,10 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     Animation animAlpha;
     String font;
     WorkWithFile workWithFile;
+<<<<<<< HEAD
     List <TextView> textViewsList = new ArrayList<>();
+=======
+>>>>>>> 97d7e4dc936746a5e05866d8f2b273a58f2439e8
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,10 +35,15 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
         workWithFile = new WorkWithFile();
+<<<<<<< HEAD
 
         startButton = findViewById(R.id.startButton);
         startButton.setOnTouchListener(this);
 
+=======
+        button1 = findViewById(R.id.startButton);
+        button1.setOnTouchListener(this);
+>>>>>>> 97d7e4dc936746a5e05866d8f2b273a58f2439e8
         loadButton = findViewById(R.id.loadButton);
         loadButton.setOnTouchListener(this);
 
@@ -51,8 +59,12 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         textViewsList.add(textViewStartButton);
         animAlpha = AnimationUtils.loadAnimation(this, R.anim.animationscale);
 
+<<<<<<< HEAD
 
         font = workWithFile.ReadFromFile(workWithFile.getFontsFileName(),getApplicationContext());
+=======
+        font = workWithFile.ReadFromFile(getApplicationContext());
+>>>>>>> 97d7e4dc936746a5e05866d8f2b273a58f2439e8
         if (font != null) {
             FontChanger.changeTheFont(font,textViewsList,this);
         }
