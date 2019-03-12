@@ -4,6 +4,7 @@ package com.example.myapplication.requestEngine;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -175,6 +176,7 @@ public class RequestActivity extends AppCompatActivity {
     }
     public void Click(View view) {
         TextView myTextView = findViewById(R.id.myText);
+        myTextView.setMovementMethod(new ScrollingMovementMethod());
         friendRequest();
         myTextView.setText(getText());
 
