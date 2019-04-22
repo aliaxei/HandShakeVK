@@ -1,5 +1,0 @@
-<resources>
-    <string name="app_name">Рукопожатия ВК</string>
-    <integer name="com_vk_sdk_AppId">6865089</integer>
-    <string name="question_mark"></string>
-</resources>
