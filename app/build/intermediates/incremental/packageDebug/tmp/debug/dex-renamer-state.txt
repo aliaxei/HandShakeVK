@@ -1,4 +1,4 @@
-#Mon Mar 04 11:29:53 MSK 2019
-base.0=E\:\\mobilki project\\project 1.0\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\out
+#Sun Apr 14 18:47:57 MSK 2019
+base.0=E\:\\mobilkiproject\\handshakesVK\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\out
 path.0=classes.dex
 renamed.0=classes.dex

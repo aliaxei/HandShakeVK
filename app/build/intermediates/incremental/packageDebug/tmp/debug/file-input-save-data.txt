@@ -1,19 +1,19 @@
 #Internal package file, do not edit.
-#Mon Mar 04 11:29:54 MSK 2019
-1.base=E\:\\mobilki project\\project 1.0\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\out
-2.path=fonts/Superfont.ttf
+#Wed Mar 13 23:12:53 MSK 2019
+1.base=E\:\\mobilkiproject\\handshakesVK\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\out
+2.path=fonts/Basic.ttf
 0.baseType=DIRECTORY
 3.baseType=DIRECTORY
-2.base=E\:\\mobilki project\\project 1.0\\app\\build\\intermediates\\merged_assets\\debug\\mergeDebugAssets\\out
+2.base=E\:\\mobilkiproject\\handshakesVK\\app\\build\\intermediates\\merged_assets\\debug\\mergeDebugAssets\\out
 3.set=ASSET
 2.set=ASSET
 1.baseType=DIRECTORY
 3.path=fonts/Arial.ttf
 count=4
 1.set=DEX
-0.path=fonts/Basic.ttf
-3.base=E\:\\mobilki project\\project 1.0\\app\\build\\intermediates\\merged_assets\\debug\\mergeDebugAssets\\out
+0.path=fonts/Superfont.ttf
+3.base=E\:\\mobilkiproject\\handshakesVK\\app\\build\\intermediates\\merged_assets\\debug\\mergeDebugAssets\\out
 0.set=ASSET
-0.base=E\:\\mobilki project\\project 1.0\\app\\build\\intermediates\\merged_assets\\debug\\mergeDebugAssets\\out
+0.base=E\:\\mobilkiproject\\handshakesVK\\app\\build\\intermediates\\merged_assets\\debug\\mergeDebugAssets\\out
 2.baseType=DIRECTORY
 1.path=classes.dex
