@@ -8,4 +8,19 @@
     tools:context=".TestActivity">
 
 
+    <ImageView
+        android:id="@+id/questionButton"
+        android:layout_width="191dp"
+        android:layout_height="161dp"
+        android:layout_marginStart="205dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="554dp"
+        android:background="@drawable/questionmark"
+        android:transitionName="questionTransition"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </android.support.constraint.ConstraintLayout>

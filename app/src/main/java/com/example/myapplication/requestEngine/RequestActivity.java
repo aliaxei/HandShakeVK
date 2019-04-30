@@ -77,8 +77,8 @@ public class RequestActivity extends AppCompatActivity {
     public void Click(View view) {
         HandshakeRequest handshakeRequest = new HandshakeRequest();
         TextView myTextView = findViewById(R.id.myText);
-        handshakeRequest.friendRequest();
-        myTextView.setText(handshakeRequest.getText());
+       // handshakeRequest.friendRequest();
+       // myTextView.setText(handshakeRequest.getText());
 
     }
 }

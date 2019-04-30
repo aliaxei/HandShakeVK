@@ -5,6 +5,8 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -14,6 +16,7 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.myapplication.requestEngine.InputUserInfoActivity;
@@ -28,6 +31,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements View.OnTouchListener{
     Button startButton,loadButton,settingsButton;
     TextView textViewStartButton,textViewLoadButtons,textViewSettingsButton;
+    ImageView questionButton;
     Animation animAlpha;
     String font,bgColor,musicState;
     ConstraintLayout constraintLayout;
@@ -55,6 +59,9 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
         settingsButton = findViewById(R.id.settingsButton);
         settingsButton.setOnTouchListener(this);
+
+        questionButton = findViewById(R.id.questionButton);
+        questionButton.setOnTouchListener(this);
 
 
         textViewLoadButtons = findViewById(R.id.textViewLoadButton);
@@ -127,6 +134,15 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                         break;
                 }
                 break;
+            }
+            case R.id.questionButton:{
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_UP:
+                        Intent intent3 = new Intent(this, TestActivity.class);
+                        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                MainActivity.this, findViewById(R.id.questionButton), "questionTransition");
+                        startActivity(intent3, options.toBundle());
+                }
             }
         }
         return true;
