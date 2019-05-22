@@ -1,13 +1,21 @@
 package com.example.myapplication.requestEngine.users;
 
+import com.vk.sdk.api.VKApi;
+import com.vk.sdk.api.model.VKApiCity;
+import com.vk.sdk.api.model.VKApiCountry;
+
 public class User {
     private String photoUrl;
     private String firstName;
     private String lastName;
     private int id;
 
+
     public User() {
     }
+
+
+
 
     public User(String photoUrl, String firstName, String lastName, int id) {
         this.photoUrl = photoUrl;

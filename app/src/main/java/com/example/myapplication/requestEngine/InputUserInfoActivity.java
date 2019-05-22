@@ -6,19 +6,20 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.example.myapplication.BGChanger;
+import com.example.myapplication.settings.BGChanger;
 import com.example.myapplication.FontChanger;
+import com.example.myapplication.SecondActivity;
 import com.example.myapplication.WorkWithFile;
 import com.example.myapplication.R;
 import android.content.Intent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.myapplication.requestEngine.inputOutput.Output;
-import com.example.myapplication.requestEngine.outputActivity.HandShakeOutputScrollingActivity;
 import com.example.myapplication.requestEngine.transformation.CircularTransformation;
 import com.example.myapplication.requestEngine.users.User;
 import com.example.myapplication.settings.MusicState;
@@ -34,8 +35,7 @@ import java.util.List;
 
 public class InputUserInfoActivity extends AppCompatActivity {
 
-    private final String[] scope = new String[]{VKScope.WALL, VKScope.PHOTOS};
-    private ArrayList items = new ArrayList();
+    private final String[] scope = new String[]{VKScope.WALL, VKScope.PHOTOS, VKScope.FRIENDS};
     WorkWithFile workWithFile;
     ConstraintLayout constraintLayout;
     MediaPlayer mediaPlayer = new MediaPlayer();
@@ -44,12 +44,12 @@ public class InputUserInfoActivity extends AppCompatActivity {
     public int finishID;
     String musicState, font,bgColor;
     ImageView startUserImageView, finishUserImageView;
-    TextView startUserEditTextName,startUserEditTextID,finishUserEditTextName,finishUserEditTextID;
+    TextView startUserEditTextName,startUserEditTextID,finishUserEditTextName,finishUserEditTextID,textViewSearchUserButton,textViewSearchUserButton2,textViewRequestButton;
     List<TextView> textViews = new ArrayList<>();
-
-
-
-
+    List<Button> buttons = new ArrayList<>();
+    Button startUserButton,finishUserButton, requestButton;
+    List<Integer> resultListOfFriends;
+    List<Integer> finishUserFriendsIds;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,12 +70,28 @@ public class InputUserInfoActivity extends AppCompatActivity {
         textViews.add(finishUserEditTextName);
         finishUserEditTextID = findViewById(R.id.finishUserEditTextID);
         textViews.add(finishUserEditTextID);
+        startUserButton = findViewById(R.id.startUserButton);
+        buttons.add(startUserButton);
+        finishUserButton = findViewById(R.id.finishUserButton);
+        buttons.add(finishUserButton);
+        requestButton= findViewById(R.id.requestButton);
+        buttons.add(requestButton);
+        textViewSearchUserButton = findViewById(R.id.textViewSearchUserButton);
+        textViews.add(textViewSearchUserButton);
+        textViewSearchUserButton2 = findViewById(R.id.textViewSearchButton2);
+        textViews.add(textViewSearchUserButton2);
+        textViewRequestButton = findViewById(R.id.textViewRequestButton);
+        textViews.add(textViewRequestButton);
+
         VKSdk.login(this, scope);
 
+        workWithFile.WriteToFile(workWithFile.getVkIdList(),"",this);
 
         bgColor = workWithFile.ReadFromFile(workWithFile.getBgFileName(),getApplicationContext());
         if (bgColor != null){
             BGChanger.ChangeTheBG(bgColor,constraintLayout);
+            BGChanger.bgForTextViews(bgColor,textViews);
+            BGChanger.bgForButtons(bgColor,buttons);
         }
         musicState = workWithFile.ReadFromFile(workWithFile.getToggleFileName(),getApplicationContext());
         if(musicState != null){
@@ -121,7 +137,6 @@ public class InputUserInfoActivity extends AppCompatActivity {
         mediaPlayer.start();
         outData(startUserImageView,startUserEditTextName,startUserEditTextID,1);
     }
-
     public void outData(ImageView imageView,TextView textViewName,TextView textViewId,int flag){
         Output output = new Output();
         try {
@@ -147,25 +162,57 @@ public class InputUserInfoActivity extends AppCompatActivity {
 
     public void startSearch(View view) {
         mediaPlayer.start();
-        DataProcess dataProcess = new DataProcess();
-//        dataProcess.mainProc(startID,finishID);
-        List<Integer> way = dataProcess.bestAlgorithmEver(startID, finishID);
+        if (startID == finishID) {
+            Toast toast = Toast.makeText(this,"Наше приложение не сможет помочь найти вам себя",Toast.LENGTH_LONG);
+            toast.show();
+        }else {
+            dataInThreads();
+        Thread thread2 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                    if (handshakeRequest.areFriends(startID, finishID)) {
+                        resultListOfFriends = new ArrayList<>();
+                        resultListOfFriends.add(startID);
+                        resultListOfFriends.add(finishID);
+                    } else {
+                        resultListOfFriends = handshakeRequest.getMutualFriends(startID, finishID);
 
-        StringBuilder wayString = new StringBuilder();
-        for (int i = 0; i<way.size(); i++){
-            wayString.append(way.get(i)).append(", ");
+                    }
+                    if (resultListOfFriends.size() < 1) {
+                        finishUserFriendsIds = new ArrayList<>();
+                        finishUserFriendsIds = handshakeRequest.friendRequest(finishID);
+                        resultListOfFriends = handshakeRequest.getMutualFriendsWithFinishUserFriendsList(finishUserFriendsIds, startID);
+                        resultListOfFriends.add(finishID);
+                    }
+                    workWithFile.WriteListToFile(workWithFile.getVkIdList(), resultListOfFriends, getApplicationContext());
+                }
+
+        });
+      thread2.start();
+
+
+    }
+
+    }
+    public void dataInThreads(){
+
+    Thread thread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            Intent intent = new Intent(InputUserInfoActivity.this, SecondActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.activity_animation, R.anim.alpha_animation);
         }
+    });
+    thread.start();
 
-        Toast.makeText(this, wayString.toString(), Toast.LENGTH_LONG).show();
-        System.out.println(wayString);
-        Intent intent = new Intent(this, HandShakeOutputScrollingActivity.class);
-        startActivity(intent);
-        overridePendingTransition(R.anim.activity_animation,R.anim.alpha_animation);
+
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
+        workWithFile.WriteToFile(workWithFile.getVkIdList(),"",this);
         font = workWithFile.ReadFromFile(workWithFile.getFontsFileName(),getApplicationContext());
         if (font != null) {
             FontChanger.changeTheFont(font,textViews,this);
@@ -176,6 +223,8 @@ public class InputUserInfoActivity extends AppCompatActivity {
         bgColor = workWithFile.ReadFromFile(workWithFile.getBgFileName(),getApplicationContext());
         if (bgColor != null){
             BGChanger.ChangeTheBG(bgColor,constraintLayout);
+            BGChanger.bgForTextViews(bgColor,textViews);
+            BGChanger.bgForButtons(bgColor,buttons);
         }
     }
 }

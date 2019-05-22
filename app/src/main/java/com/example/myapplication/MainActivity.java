@@ -2,11 +2,9 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -20,10 +18,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.myapplication.requestEngine.InputUserInfoActivity;
+import com.example.myapplication.settings.BGChanger;
 import com.example.myapplication.settings.MusicState;
 import com.example.myapplication.settings.SettingsActivity;
-import com.example.myapplication.settings.StateSwitch;
-import com.example.myapplication.settings.ToggleState;
+import com.example.myapplication.settings.extendedSettings.ExtendedSettingsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     WorkWithFile workWithFile;
     MediaPlayer mp = new MediaPlayer();
     List <TextView> textViewsList = new ArrayList<>();
+    List<Button> buttons = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,13 +52,13 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
         startButton = findViewById(R.id.startButton);
         startButton.setOnTouchListener(this);
-
+buttons.add(startButton);
         loadButton = findViewById(R.id.loadButton);
         loadButton.setOnTouchListener(this);
-
+        buttons.add(loadButton);
         settingsButton = findViewById(R.id.settingsButton);
         settingsButton.setOnTouchListener(this);
-
+        buttons.add(settingsButton);
         questionButton = findViewById(R.id.questionButton);
         questionButton.setOnTouchListener(this);
 
@@ -75,6 +74,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         bgColor = workWithFile.ReadFromFile(workWithFile.getBgFileName(),getApplicationContext());
         if (bgColor != null){
             BGChanger.ChangeTheBG(bgColor,constraintLayout);
+            BGChanger.bgForButtons(bgColor,buttons);
+            BGChanger.bgForTextViews(bgColor,textViewsList);
         }
         font = workWithFile.ReadFromFile(workWithFile.getFontsFileName(),getApplicationContext());
         if (font != null) {
@@ -114,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                         v.startAnimation(animAlpha);
                         break;
                     case MotionEvent.ACTION_UP:
-                        Intent intent1 = new Intent(this, SecondActivity.class);
+                        Intent intent1 = new Intent(this, ExtendedSettingsActivity.class);
                         startActivity(intent1);
                         overridePendingTransition(R.anim.activity_animation,R.anim.alpha_animation);
                         break;
@@ -137,7 +138,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             }
             case R.id.questionButton:{
                 switch (event.getAction()) {
-                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_DOWN:
+                        mp.start();
                         Intent intent3 = new Intent(this, TestActivity.class);
                         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                                 MainActivity.this, findViewById(R.id.questionButton), "questionTransition");
@@ -153,7 +155,9 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         super.onRestart();
         bgColor = workWithFile.ReadFromFile(workWithFile.getBgFileName(),getApplicationContext());
         if (bgColor != null){
-          BGChanger.ChangeTheBG(bgColor,constraintLayout);
+            BGChanger.ChangeTheBG(bgColor,constraintLayout);
+            BGChanger.bgForButtons(bgColor,buttons);
+            BGChanger.bgForTextViews(bgColor,textViewsList);
         }
         font = workWithFile.ReadFromFile(workWithFile.getFontsFileName(),getApplicationContext());
         if (font != null) {

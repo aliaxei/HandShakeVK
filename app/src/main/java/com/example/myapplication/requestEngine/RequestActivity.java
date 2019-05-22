@@ -51,7 +51,7 @@ public class RequestActivity extends AppCompatActivity {
         setContentView(R.layout.activity_request);
 
         //VKSdk.initialize(this);
-        VKSdk.login(this, scope);
+        //VKSdk.login(this, scope);
 
     }
     @Override

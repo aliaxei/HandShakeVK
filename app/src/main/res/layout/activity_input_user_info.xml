@@ -50,7 +50,7 @@
                     android:id="@+id/startUserEditTextID"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Ссылка"
+                    android:hint="Link or ID"
                     android:inputType="textPersonName"
                     android:layout_centerInParent="true" />
             </RelativeLayout>
@@ -108,10 +108,10 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:gravity="center_horizontal"
-                android:text="Request"
+                android:text="Find User"
                 android:textSize="16dp"
-                android:textColor="#000871"
-                android:translationZ="5dp" /> />
+                android:textColor="#fff"
+                android:translationZ="5dp" />
         </RelativeLayout>
     </LinearLayout>
 
@@ -157,7 +157,7 @@
                     android:id="@+id/finishUserEditTextID"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Ссылка"
+                    android:hint="Link or ID"
                     android:inputType="textPersonName"
                     android:layout_centerInParent="true"
                    />
@@ -210,14 +210,14 @@
                 android:background="@drawable/buttonstyle" />
 
             <TextView
-                android:id="@+id/textViewSearchButton"
+                android:id="@+id/textViewSearchButton2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:gravity="center_horizontal"
-                android:text="Request"
+                android:text="Find User"
                 android:textSize="16dp"
-                android:textColor="#000871"
+                android:textColor="#fff"
                 android:translationZ="5dp" />
         </RelativeLayout>
     </LinearLayout>
@@ -251,9 +251,9 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:gravity="center_horizontal"
-                android:text="Request"
+                android:text="Search"
                 android:textSize="16dp"
-                android:textColor="#000871"
+                android:textColor="#fff"
                 android:translationZ="5dp" />
         </RelativeLayout>
     </LinearLayout>

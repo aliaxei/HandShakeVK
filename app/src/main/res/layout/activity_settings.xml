@@ -209,13 +209,27 @@
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_marginTop="360dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="370dp"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
         <RelativeLayout
-            android:layout_width="match_parent"
+            android:layout_width="200dp"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Song accompaniment :"
+                android:textSize="16dp"
+                android:textColor="@color/vk_white"
+                android:layout_centerInParent="true"
+                android:gravity="center"/>
+
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="200dp"
             android:layout_height="match_parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -224,10 +238,9 @@
         android:id="@+id/toggleButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="162dp"
-        android:text="Songs"
-        android:layout_centerInParent="true"
+        android:layout_marginRight="70dp"
+        android:background="@drawable/picture_border"
+        android:layout_alignParentRight="true"
         app:layout_constraintEnd_toEndOf="parent" />
         </RelativeLayout>
     </LinearLayout>

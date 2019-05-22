@@ -1,7 +1,6 @@
 package com.example.myapplication.settings;
 
 import android.content.pm.ActivityInfo;
-import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
@@ -16,14 +15,13 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.example.myapplication.BGChanger;
 import com.example.myapplication.FontChanger;
 import com.example.myapplication.R;
 import com.example.myapplication.WorkWithFile;
@@ -32,10 +30,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SettingsActivity extends AppCompatActivity  implements CompoundButton.OnCheckedChangeListener{
-
+    Button extendedSettings;
     Switch greenBlueSwitch,redBlueSwitch,yellowPinkSwitch,yellowRedSwitch;
     ToggleButton musicToggle;
-    String font,bgColor,tState;
+    String font,bgColor,tState,swState;
     Animation alphaAnimation;
     WorkWithFile workWithFile;
     ConstraintLayout constraintLayout;
@@ -150,66 +148,110 @@ public class SettingsActivity extends AppCompatActivity  implements CompoundButt
         if (bgColor != null){
             BGChanger.ChangeTheBG(bgColor,constraintLayout);
             BGChanger.setCheckedSwitch(bgColor,greenBlueSwitch,redBlueSwitch,yellowPinkSwitch,yellowRedSwitch);
+            BGChanger.bgForSwitches(bgColor,switches);
+        }
+        swState = workWithFile.ReadFromFile(workWithFile.getSwitchState(),this);
+        if (swState != null){
+            if (swState.equals(StateSwitch.Unlocked.toString())) {
+                constraintLayout.setBackgroundResource(R.drawable.bggradient);
+                workWithFile.WriteToFile(workWithFile.getBgFileName(), BGradients.bggradient.toString(), getApplicationContext());
+            }
         }
     }
 
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if (!greenBlueSwitch.isChecked() && !redBlueSwitch.isChecked() && !yellowRedSwitch.isChecked() && !yellowPinkSwitch.isChecked()){
-                   workWithFile.WriteToFile(workWithFile.getBgFileName(),BGradients.bggradient.toString(), getApplicationContext());
-            constraintLayout.setBackgroundResource(R.drawable.bggradient);
-        }
             switch (buttonView.getId()){
                 case R.id.toggleButton:
                     if (musicToggle.isChecked()){
                         workWithFile.WriteToFile(workWithFile.getToggleFileName(),ToggleState.Off.toString(),getApplicationContext());
                     }else {
                         workWithFile.WriteToFile(workWithFile.getToggleFileName(), ToggleState.On.toString(), getApplicationContext());
-                        Toast toast = Toast.makeText(getApplicationContext(), "Songs Effects is ON", Toast.LENGTH_SHORT);
-                        toast.show();
                     }
                    break;
                 case R.id.greenBlueSwitch:
                     if (greenBlueSwitch.isChecked()) {
-
-                        constraintLayout.setBackgroundResource(R.drawable.bg_gradient_green_blue);
-                        workWithFile.WriteToFile(workWithFile.getBgFileName(),BGradients.bg_gradient_green_blue.toString(),getApplicationContext());
                         redBlueSwitch.setChecked(false);
                         yellowPinkSwitch.setChecked(false);
                         yellowRedSwitch.setChecked(false);
-                        musicToggle.setChecked(false);
+                        constraintLayout.setBackgroundResource(R.drawable.bg_gradient_green_blue);
+                        workWithFile.WriteToFile(workWithFile.getBgFileName(),BGradients.bg_gradient_green_blue.toString(),getApplicationContext());
+                        workWithFile.WriteToFile(workWithFile.getSwitchState(),StateSwitch.Locked.toString(),getApplicationContext());
+                        bgColor = workWithFile.ReadFromFile(workWithFile.getBgFileName(),getApplicationContext());
+                        if (bgColor != null) {
+                            BGChanger.bgForSwitches(bgColor, switches);
+                        }
                     }
+                    if (!greenBlueSwitch.isChecked()){
+                    workWithFile.WriteToFile(workWithFile.getSwitchState(),StateSwitch.Unlocked.toString(),getApplicationContext());
+                    constraintLayout.setBackgroundResource(R.drawable.bggradient);
+                        workWithFile.WriteToFile(workWithFile.getBgFileName(),BGradients.bggradient.toString(),getApplicationContext());
+                }
                     break;
                 case R.id.redBlueSwitch:
                     if (redBlueSwitch.isChecked()) {
+                        greenBlueSwitch.setChecked(false);
+                        yellowPinkSwitch.setChecked(false);
+                        yellowRedSwitch.setChecked(false);
                         constraintLayout.setBackgroundResource(R.drawable.bg_gradient_red_blue);
                         workWithFile.WriteToFile(workWithFile.getBgFileName(),BGradients.bg_gradient_red_blue.toString(),getApplicationContext());
-                        greenBlueSwitch.setChecked(false);
-                        yellowPinkSwitch.setChecked(false);
-                        yellowRedSwitch.setChecked(false);
+                        workWithFile.WriteToFile(workWithFile.getSwitchState(),StateSwitch.Locked.toString(),getApplicationContext());
+                        bgColor = workWithFile.ReadFromFile(workWithFile.getBgFileName(),getApplicationContext());
+                        if (bgColor != null) {
+                            BGChanger.bgForSwitches(bgColor, switches);
+                        }
                     }
+                    if (!redBlueSwitch.isChecked()){
+                    workWithFile.WriteToFile(workWithFile.getSwitchState(),StateSwitch.Unlocked.toString(),getApplicationContext());
+                    constraintLayout.setBackgroundResource(R.drawable.bggradient);
+                        workWithFile.WriteToFile(workWithFile.getBgFileName(),BGradients.bggradient.toString(),getApplicationContext());
+                }
+                    break;
                 case R.id.yellowPinkSwitch:
                     if (yellowPinkSwitch.isChecked()) {
+                        greenBlueSwitch.setChecked(false);
+                        redBlueSwitch.setChecked(false);
+                        yellowRedSwitch.setChecked(false);
                         constraintLayout.setBackgroundResource(R.drawable.bg_gradient_yellow_pink);
                         workWithFile.WriteToFile(workWithFile.getBgFileName(), BGradients.bg_gradient_yellow_pink.toString(), getApplicationContext());
-                        redBlueSwitch.setChecked(false);
-                        greenBlueSwitch.setChecked(false);
-                        yellowRedSwitch.setChecked(false);
+                        workWithFile.WriteToFile(workWithFile.getSwitchState(),StateSwitch.Locked.toString(),getApplicationContext());
+                        bgColor = workWithFile.ReadFromFile(workWithFile.getBgFileName(),getApplicationContext());
+                        if (bgColor != null) {
+                            BGChanger.bgForSwitches(bgColor, switches);
+                        }
                     }
+                    if (!yellowPinkSwitch.isChecked()){
+                        workWithFile.WriteToFile(workWithFile.getSwitchState(),StateSwitch.Unlocked.toString(),getApplicationContext());
+                        constraintLayout.setBackgroundResource(R.drawable.bggradient);
+                        workWithFile.WriteToFile(workWithFile.getBgFileName(),BGradients.bggradient.toString(),getApplicationContext());
+                    }
+                    break;
                 case R.id.yellowRedSwitch:
+
                     if (yellowRedSwitch.isChecked()) {
-                        constraintLayout.setBackgroundResource(R.drawable.bg_gradient_yellow_red);
-                        workWithFile.WriteToFile(workWithFile.getBgFileName(), BGradients.bg_gradient_yellow_red.toString(), getApplicationContext());
+                        greenBlueSwitch.setChecked(false);
                         redBlueSwitch.setChecked(false);
                         yellowPinkSwitch.setChecked(false);
-                        greenBlueSwitch.setChecked(false);
+                        constraintLayout.setBackgroundResource(R.drawable.bg_gradient_yellow_red);
+                        workWithFile.WriteToFile(workWithFile.getBgFileName(),BGradients.bg_gradient_yellow_red.toString(), getApplicationContext());
+                        workWithFile.WriteToFile(workWithFile.getSwitchState(),StateSwitch.Locked.toString(),getApplicationContext());
+                        bgColor = workWithFile.ReadFromFile(workWithFile.getBgFileName(),getApplicationContext());
+                        if (bgColor != null) {
+                            BGChanger.bgForSwitches(bgColor, switches);
+                        }
                     }
+                    if (!yellowRedSwitch.isChecked()){
+                        workWithFile.WriteToFile(workWithFile.getSwitchState(),StateSwitch.Unlocked.toString(),getApplicationContext());
+                        constraintLayout.setBackgroundResource(R.drawable.bggradient);
+                        workWithFile.WriteToFile(workWithFile.getBgFileName(),BGradients.bggradient.toString(),getApplicationContext());
+                    }
+
                     break;
             }
 
-    }
 
+    }
 
     @Override
     protected void onRestart() {
@@ -226,6 +268,14 @@ public class SettingsActivity extends AppCompatActivity  implements CompoundButt
         if (bgColor != null){
             BGChanger.ChangeTheBG(bgColor,constraintLayout);
             BGChanger.setCheckedSwitch(bgColor,greenBlueSwitch,redBlueSwitch,yellowPinkSwitch,yellowRedSwitch);
+            BGChanger.bgForSwitches(bgColor,switches);
+        }
+        swState = workWithFile.ReadFromFile(workWithFile.getSwitchState(),this);
+        if (swState != null){
+            if (swState.equals(StateSwitch.Unlocked.toString())) {
+                constraintLayout.setBackgroundResource(R.drawable.bggradient);
+                workWithFile.WriteToFile(workWithFile.getBgFileName(),BGradients.bggradient.toString(), getApplicationContext());
+            }
         }
     }
 }

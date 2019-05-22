@@ -15,10 +15,5 @@ public class MusicState {
 
      return mp;
     }
-    public static void startPlayer(String toggleButtonState,MediaPlayer mediaPlayer){
 
-       if (toggleButtonState.equals(ToggleState.On.toString())){
-           mediaPlayer.start();
-       }
-    }
 }

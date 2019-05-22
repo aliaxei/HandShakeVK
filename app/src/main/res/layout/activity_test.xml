@@ -1,26 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/background"
     android:background="@drawable/bggradient"
     tools:context=".TestActivity">
 
 
-    <ImageView
-        android:id="@+id/questionButton"
-        android:layout_width="191dp"
-        android:layout_height="161dp"
-        android:layout_marginStart="205dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="554dp"
-        android:background="@drawable/questionmark"
-        android:transitionName="questionTransition"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-</android.support.constraint.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/questionButton"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/questionmark"
+                android:transitionName="questionTransition"
+                />
+        </RelativeLayout>
+
+
+
+
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+        <TextView
+            android:id="@+id/largeTextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="7dp"
+            android:textSize="17dp"
+            android:text="Добро пожаловать в наше приложение !!!\n\n
+
+Для удобоного пользоавния нашим продуктом убедитесь, что у вас есть:\n\n
+
+• Мобильный телефон под управлением Android версии 7.0 (Nougat) или более поздней версии.\n
+• Аккаунт в социальной сети ВКонтакте(если таковой отсутсвует, то не ленитесь, зарегистрируйтесь ;) ) \n
+• А так же большое желание использовать наше приложение.\n\n\n\n
+Так же имеется поддержка для людей с ограниченными возможностями, если у вас развит дальтонизм, то не бойтесь не различить нашей цветовой гаммы, а добро пожаловать в настройки.\n\n\n
+
+                                   © Co. ShMorKis, 2019"/>
+        </RelativeLayout>
+
+
+    </LinearLayout>
+</ScrollView>
